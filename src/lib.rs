@@ -98,7 +98,7 @@ pub unsafe fn $fn_name_maskz(k: $mask_type, a: $vec_type, b: $vec_type) -> $vec_
     };
 }
 
-use std::ops::Add;
+use std::ops::{Add, Sub};
 
 impl_mask_arith_binary! {
     _mm_mask_add_epi8, _mm_maskz_add_epi8, __m128i, __mmask8, add, 0, [i8; 16];
@@ -113,10 +113,65 @@ impl_mask_arith_binary! {
     _mm512_mask_add_epi16, _mm512_maskz_add_epi16, __m512i, __mmask32, add, 0, [i16; 32];
     _mm512_mask_add_epi32, _mm512_maskz_add_epi32, __m512i, __mmask16, add, 0, [i32; 16];
     _mm512_mask_add_epi64, _mm512_maskz_add_epi64, __m512i, __mmask8, add, 0, [i64; 8];
-    _mm_mask_add_pd, _mm_maskz_add_pd, __m128d, __mmask8, add, 0.0f64, [f64; 2];
-    _mm256_mask_add_pd, _mm256_maskz_add_pd, __m256d, __mmask8, add, 0.0f64, [f64; 4];
-    _mm512_mask_add_pd, _mm512_maskz_add_pd, __m512d, __mmask8, add, 0.0f64, [f64; 8];
-    _mm_mask_add_ps, _mm_maskz_add_ps, __m128, __mmask8, add, 0.0f32, [f32; 4];
-    _mm256_mask_add_ps, _mm256_maskz_add_ps, __m256, __mmask8, add, 0.0f32, [f32; 8];
-    _mm512_mask_add_ps, _mm512_maskz_add_ps, __m512, __mmask16, add, 0.0f32, [f32; 16];
+
+    _mm_mask_add_pd, _mm_maskz_add_pd, __m128d, __mmask8, add, 0.0, [f64; 2];
+    _mm256_mask_add_pd, _mm256_maskz_add_pd, __m256d, __mmask8, add, 0.0, [f64; 4];
+    _mm512_mask_add_pd, _mm512_maskz_add_pd, __m512d, __mmask8, add, 0.0, [f64; 8];
+    _mm_mask_add_ps, _mm_maskz_add_ps, __m128, __mmask8, add, 0.0, [f32; 4];
+    _mm256_mask_add_ps, _mm256_maskz_add_ps, __m256, __mmask8, add, 0.0, [f32; 8];
+    _mm512_mask_add_ps, _mm512_maskz_add_ps, __m512, __mmask16, add, 0.0, [f32; 16];
+
+    _mm_mask_adds_epi8, _mm_maskz_adds_epi8, __m128i, __mmask16, saturating_add, 0, [i8; 16];
+    _mm_mask_adds_epi16, _mm_maskz_adds_epi16, __m128i, __mmask8, saturating_add, 0, [i16; 8];
+    _mm_mask_adds_epu8, _mm_maskz_adds_epu8, __m128i, __mmask16, saturating_add, 0, [u8; 16];
+    _mm_mask_adds_epu16, _mm_maskz_adds_epu16, __m128i, __mmask8, saturating_add, 0, [u16; 8];
+    _mm256_mask_adds_epi8, _mm256_maskz_adds_epi8, __m256i, __mmask32, saturating_add, 0, [i8; 32];
+    _mm256_mask_adds_epi16, _mm256_maskz_adds_epi16, __m256i, __mmask16, saturating_add, 0, [i16; 16];
+    _mm256_mask_adds_epu8, _mm256_maskz_adds_epu8, __m256i, __mmask32, saturating_add, 0, [u8; 32];
+    _mm256_mask_adds_epu16, _mm256_maskz_adds_epu16, __m256i, __mmask16, saturating_add, 0, [u16; 16];
+    _mm512_mask_adds_epi8, _mm512_maskz_adds_epi8, __m512i, __mmask64, saturating_add, 0, [i8; 64];
+    _mm512_mask_adds_epi16, _mm512_maskz_adds_epi16, __m512i, __mmask32, saturating_add, 0, [i16; 32];
+    _mm512_mask_adds_epu8, _mm512_maskz_adds_epu8, __m512i, __mmask64, saturating_add, 0, [u8; 64];
+    _mm512_mask_adds_epu16, _mm512_maskz_adds_epu16, __m512i, __mmask32, saturating_add, 0, [u16; 32];
+    
+    _mm_mask_sub_epi8, _mm_maskz_sub_epi8, __m128i, __mmask8, sub, 0, [i8; 16];
+    _mm_mask_sub_epi16, _mm_maskz_sub_epi16, __m128i, __mmask8, sub, 0, [i16; 8];
+    _mm_mask_sub_epi32, _mm_maskz_sub_epi32, __m128i, __mmask8, sub, 0, [i32; 4];
+    _mm_mask_sub_epi64, _mm_maskz_sub_epi64, __m128i, __mmask8, sub, 0, [i64; 2];
+    _mm256_mask_sub_epi8,  _mm256_maskz_sub_epi8,  __m256i, __mmask32, sub, 0, [i8; 32];
+    _mm256_mask_sub_epi16, _mm256_maskz_sub_epi16, __m256i, __mmask16, sub, 0, [i16; 16];
+    _mm256_mask_sub_epi32, _mm256_maskz_sub_epi32, __m256i, __mmask8, sub, 0, [i32; 8];
+    _mm256_mask_sub_epi64, _mm256_maskz_sub_epi64, __m256i, __mmask8, sub, 0, [i64; 4];
+    _mm512_mask_sub_epi8,  _mm512_maskz_sub_epi8,  __m512i, __mmask64, sub, 0, [i8; 64];
+    _mm512_mask_sub_epi16, _mm512_maskz_sub_epi16, __m512i, __mmask32, sub, 0, [i16; 32];
+    _mm512_mask_sub_epi32, _mm512_maskz_sub_epi32, __m512i, __mmask16, sub, 0, [i32; 16];
+    _mm512_mask_sub_epi64, _mm512_maskz_sub_epi64, __m512i, __mmask8, sub, 0, [i64; 8];
+
+    _mm_mask_sub_pd, _mm_maskz_sub_pd, __m128d, __mmask8, sub, 0.0, [f64; 2];
+    _mm256_mask_sub_pd, _mm256_maskz_sub_pd, __m256d, __mmask8, sub, 0.0, [f64; 4];
+    _mm512_mask_sub_pd, _mm512_maskz_sub_pd, __m512d, __mmask8, sub, 0.0, [f64; 8];
+    _mm_mask_sub_ps, _mm_maskz_sub_ps, __m128, __mmask8, sub, 0.0, [f32; 4];
+    _mm256_mask_sub_ps, _mm256_maskz_sub_ps, __m256, __mmask8, sub, 0.0, [f32; 8];
+    _mm512_mask_sub_ps, _mm512_maskz_sub_ps, __m512, __mmask16, sub, 0.0, [f32; 16];
+
+    _mm_mask_subs_epi8, _mm_maskz_subs_epi8, __m128i, __mmask16, saturating_sub, 0, [i8; 16];
+    _mm_mask_subs_epi16, _mm_maskz_subs_epi16, __m128i, __mmask8, saturating_sub, 0, [i16; 8];
+    _mm_mask_subs_epu8, _mm_maskz_subs_epu8, __m128i, __mmask16, saturating_sub, 0, [u8; 16];
+    _mm_mask_subs_epu16, _mm_maskz_subs_epu16, __m128i, __mmask8, saturating_sub, 0, [u16; 8];
+    _mm256_mask_subs_epi8, _mm256_maskz_subs_epi8, __m256i, __mmask32, saturating_sub, 0, [i8; 32];
+    _mm256_mask_subs_epi16, _mm256_maskz_subs_epi16, __m256i, __mmask16, saturating_sub, 0, [i16; 16];
+    _mm256_mask_subs_epu8, _mm256_maskz_subs_epu8, __m256i, __mmask32, saturating_sub, 0, [u8; 32];
+    _mm256_mask_subs_epu16, _mm256_maskz_subs_epu16, __m256i, __mmask16, saturating_sub, 0, [u16; 16];
+    _mm512_mask_subs_epi8, _mm512_maskz_subs_epi8, __m512i, __mmask64, saturating_sub, 0, [i8; 64];
+    _mm512_mask_subs_epi16, _mm512_maskz_subs_epi16, __m512i, __mmask32, saturating_sub, 0, [i16; 32];
+    _mm512_mask_subs_epu8, _mm512_maskz_subs_epu8, __m512i, __mmask64, saturating_sub, 0, [u8; 64];
+    _mm512_mask_subs_epu16, _mm512_maskz_subs_epu16, __m512i, __mmask32, saturating_sub, 0, [u16; 32];
 }
+
+
+/*
+    _mm_mask_add_round_pd, _mm_maskz_add_round_pd, __m128d, __mmask8, add, 0.0, [f64; 2];
+    _mm512_mask_add_round_pd, _mm512_maskz_add_round_pd, __m512d, __mmask8, add, 0.0, [f64; 8];
+    _mm_mask_add_round_ps, _mm_maskz_add_round_ps, __m128, __mmask8, add, 0.0, [f32; 4];
+    _mm512_mask_add_round_ps, _mm512_maskz_add_round_ps, __m512, __mmask16, add, 0.0, [f32; 16];
+*/
