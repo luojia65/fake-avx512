@@ -165,6 +165,27 @@ impl_mask_arith_binary_vector! {
     _mm512_mask_subs_epi16, _mm512_maskz_subs_epi16, __m512i, __mmask32, saturating_sub, 0, [i16; 32];
     _mm512_mask_subs_epu8, _mm512_maskz_subs_epu8, __m512i, __mmask64, saturating_sub, 0, [u8; 64];
     _mm512_mask_subs_epu16, _mm512_maskz_subs_epu16, __m512i, __mmask32, saturating_sub, 0, [u16; 32];
+
+    _mm_mask_mul_epi32, _mm_maskz_mul_epi32, __m128i, __mmask8, mul, 0, [i32; 4];
+    _mm256_mask_mul_epi32, _mm256_maskz_mul_epi32, __m256i, __mmask8, mul, 0, [i32; 8];
+    _mm512_mask_mul_epi32, _mm512_maskz_mul_epi32, __m512i, __mmask8, mul, 0, [i32; 16];
+    _mm_mask_mul_epu32, _mm_maskz_mul_epu32, __m128i, __mmask8, mul, 0, [u32; 4];
+    _mm256_mask_mul_epu32, _mm256_maskz_mul_epu32, __m256i, __mmask8, mul, 0, [u32; 8];
+    _mm512_mask_mul_epu32, _mm512_maskz_mul_epu32, __m512i, __mmask8, mul, 0, [u32; 16];
+    
+    _mm_mask_mul_pd, _mm_maskz_mul_pd, __m128d, __mmask8, mul, 0.0, [f64; 2];
+    _mm256_mask_mul_pd, _mm256_maskz_mul_pd, __m256d, __mmask8, mul, 0.0, [f64; 4];
+    _mm512_mask_mul_pd, _mm512_maskz_mul_pd, __m512d, __mmask8, mul, 0.0, [f64; 8];
+    _mm_mask_mul_ps, _mm_maskz_mul_ps, __m128, __mmask8, mul, 0.0, [f32; 4];
+    _mm256_mask_mul_ps, _mm256_maskz_mul_ps, __m256, __mmask8, mul, 0.0, [f32; 8];
+    _mm512_mask_mul_ps, _mm512_maskz_mul_ps, __m512, __mmask16, mul, 0.0, [f32; 16];
+
+    _mm_mask_div_pd, _mm_maskz_div_pd, __m128d, __mmask8, div, 0.0, [f64; 2];
+    _mm256_mask_div_pd, _mm256_maskz_div_pd, __m256d, __mmask8, div, 0.0, [f64; 4];
+    _mm512_mask_div_pd, _mm512_maskz_div_pd, __m512d, __mmask8, div, 0.0, [f64; 8];
+    _mm_mask_div_ps, _mm_maskz_div_ps, __m128, __mmask8, div, 0.0, [f32; 4];
+    _mm256_mask_div_ps, _mm256_maskz_div_ps, __m256, __mmask8, div, 0.0, [f32; 8];
+    _mm512_mask_div_ps, _mm512_maskz_div_ps, __m512, __mmask16, div, 0.0, [f32; 16];
 }
 
 macro_rules! impl_mask_arith_binary_scalar {
