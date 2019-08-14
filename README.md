@@ -3,7 +3,7 @@
 [![Crates.io][crates-badge]][crates-url]
 [![996ICU+WTFPL licensed][pl-badge]][pl-url]
 
-[crates-badge]: https://img.shields.io/crates/v/mc-varint.svg
+[crates-badge]: https://img.shields.io/crates/v/fake-avx512.svg
 [crates-url]: https://crates.io/crates/fake-avx512
 [pl-badge]: https://img.shields.io/badge/license-996ICU+WTFPL-blue.svg
 [pl-url]: LICENSE
