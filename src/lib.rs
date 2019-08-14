@@ -1,4 +1,5 @@
 use core::mem::{transmute, MaybeUninit};
+use core::ops::{Add, Sub, Mul, Div};
 use std::arch::x86_64::*;
 
 #[allow(non_camel_case_types)]
@@ -65,7 +66,7 @@ impl_mask_arith_abs! {
     _mm512_mask_abs_epi64, _mm512_maskz_abs_epi64, __m512i, __mmask8, [i64; 8];
 }
 
-macro_rules! impl_mask_arith_binary {
+macro_rules! impl_mask_arith_binary_vector {
     ($($fn_name_mask: ident, $fn_name_maskz: ident, 
     $vec_type: ty, $mask_type: ty, $binary_func: ident, $zero: expr,
     [$elem: ty; $iter_cnt: expr];)*) => {
@@ -98,9 +99,7 @@ pub unsafe fn $fn_name_maskz(k: $mask_type, a: $vec_type, b: $vec_type) -> $vec_
     };
 }
 
-use std::ops::{Add, Sub};
-
-impl_mask_arith_binary! {
+impl_mask_arith_binary_vector! {
     _mm_mask_add_epi8, _mm_maskz_add_epi8, __m128i, __mmask8, add, 0, [i8; 16];
     _mm_mask_add_epi16, _mm_maskz_add_epi16, __m128i, __mmask8, add, 0, [i16; 8];
     _mm_mask_add_epi32, _mm_maskz_add_epi32, __m128i, __mmask8, add, 0, [i32; 4];
@@ -168,6 +167,51 @@ impl_mask_arith_binary! {
     _mm512_mask_subs_epu16, _mm512_maskz_subs_epu16, __m512i, __mmask32, saturating_sub, 0, [u16; 32];
 }
 
+macro_rules! impl_mask_arith_binary_scalar {
+    ($($fn_name_mask: ident, $fn_name_maskz: ident, 
+    $vec_type: ty, $mask_type: ty, $binary_func: ident, $zero: expr,
+    [$elem: ty; $iter_cnt: expr];)*) => {
+        $(
+pub unsafe fn $fn_name_mask(src: $vec_type, k: $mask_type, a: $vec_type, b: $vec_type) -> $vec_type {
+    let src: [$elem; $iter_cnt] = transmute(src);
+    let a: [$elem; $iter_cnt] = transmute(a);
+    let b: [$elem; $iter_cnt] = transmute(b);
+    let mut dst: [$elem; $iter_cnt] = MaybeUninit::uninit().assume_init();
+    for i in 1..$iter_cnt {
+        dst[i] = a[i];
+    }
+    dst[0] = if k & 0b1 != 0 {
+        <$elem>::$binary_func(a[0], b[0])
+    } else {
+        src[0]
+    };
+    transmute(dst)
+}
+
+pub unsafe fn $fn_name_maskz(k: $mask_type, a: $vec_type, b: $vec_type) -> $vec_type {
+    let a: [$elem; $iter_cnt] = transmute(a);
+    let b: [$elem; $iter_cnt] = transmute(b);
+    let mut dst: [$elem; $iter_cnt] = MaybeUninit::uninit().assume_init();
+    for i in 1..$iter_cnt {
+        dst[i] = a[i];
+    }
+    dst[0] = if k & 0b1 != 0 { <$elem>::$binary_func(a[0], b[0]) } else { $zero };
+    transmute(dst)
+}
+        )*
+    };
+}
+
+impl_mask_arith_binary_scalar! {
+    _mm_mask_add_ss, _mm_maskz_add_ss, __m128d, __mmask8, add, 0.0, [f32; 4];
+    _mm_mask_add_sd, _mm_maskz_add_sd, __m128, __mmask8, add, 0.0, [f64; 2];
+    _mm_mask_sub_ss, _mm_maskz_sub_ss, __m128d, __mmask8, sub, 0.0, [f32; 4];
+    _mm_mask_sub_sd, _mm_maskz_sub_sd, __m128, __mmask8, sub, 0.0, [f64; 2];
+    _mm_mask_mul_ss, _mm_maskz_mul_ss, __m128d, __mmask8, mul, 0.0, [f32; 4];
+    _mm_mask_mul_sd, _mm_maskz_mul_sd, __m128, __mmask8, mul, 0.0, [f64; 2];
+    _mm_mask_div_ss, _mm_maskz_div_ss, __m128d, __mmask8, div, 0.0, [f32; 4];
+    _mm_mask_div_sd, _mm_maskz_div_sd, __m128, __mmask8, div, 0.0, [f64; 2];
+}
 
 /*
     _mm_mask_add_round_pd, _mm_maskz_add_round_pd, __m128d, __mmask8, add, 0.0, [f64; 2];
