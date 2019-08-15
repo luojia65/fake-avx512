@@ -1,18 +1,3 @@
-                   The 996ICU License (996ICU)
-                     Version 0.1, March 2019
-
-fake-avx512 is distributed under WTFPL with the following restriction:
-
-The above license is only granted to entities that act in concordance
-with local labor laws. In addition, the following requirements must be
-observed:
-
-* The licencee must not, explicitly or implicitly, request or schedule
-  their employees to work more than 45 hours in any single week.
-* The licencee must not, explicitly or implicitly, request or schedule
-  their employees to be at work consecutively for 10 hours.
-
-
                DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                        Version 2, December 2004
 
@@ -26,3 +11,17 @@ observed:
       TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
      0. You just DO WHAT THE FUCK YOU WANT TO.
+
+                   The 996ICU License (996ICU)
+                     Version 0.1, March 2019
+
+fake-avx512 is distributed under WTFPL with the following restriction:
+
+The above license is only granted to entities that act in concordance
+with local labor laws. In addition, the following requirements must be
+observed:
+
+* The licencee must not, explicitly or implicitly, request or schedule
+  their employees to work more than 45 hours in any single week.
+* The licencee must not, explicitly or implicitly, request or schedule
+  their employees to be at work consecutively for 10 hours.
